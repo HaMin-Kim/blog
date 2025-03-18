@@ -1,0 +1,118 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../components/layout/BaseLayout.astro";
+import BaseHero from "../../components/shared/BaseHero.astro";
+import ArticleCard from "../../components/ui/ArticleCard.astro";
+import Container from "../../components/ui/Container.astro";
+import ContentList from "../../components/shared/ContentList.astro";
+import { CATEGORIES } from "../../constants/site";
+
+// 현재 URL 로깅
+console.log("Current URL:", Astro.url.toString());
+console.log("Current search params:", Object.fromEntries(Astro.url.searchParams.entries()));
+
+const currentCategory = Astro.url.searchParams.get('category') || "all";
+console.log("Selected category:", currentCategory);
+
+const posts = await getCollection("blog", ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+console.log("Posts data:", posts.map(post => ({
+  title: post.data.title,
+  category: post.data.category,
+  type: typeof post.data.category
+})));
+
+const filteredPosts = currentCategory === "all" 
+  ? posts 
+  : posts.filter(post => {
+      if (!post.data.category) return false;
+    return String(post.data.category) === String(currentCategory);
+    });
+
+const sortedPosts = filteredPosts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+const categoryCounts = CATEGORIES.map(cat => {
+  const count = cat.slug === "all" 
+    ? posts.length 
+    : posts.filter(post => post.data.category && String(post.data.category) === cat.slug).length;
+  return { ...cat, count };
+});
+
+console.log("Filtered posts:", filteredPosts.map(post => post.data.title));
+console.log("Category counts:", categoryCounts);
+---
+
+<BaseLayout title="Blog" description="Read my latest blog posts">
+  <Container>
+    <BaseHero title="Blog" description="Read my latest blog posts" />
+    
+    <div class="categories">
+      {
+        categoryCounts.map((cat) => (
+          <a 
+            href={`/blog?category=${cat.slug}`} 
+            class:list={[{ active: currentCategory === cat.slug }]}
+            data-astro-reload
+          >
+            {cat.name} ({cat.count})
+          </a>
+        ))
+      }
+    </div>
+    
+    <ContentList>
+      {
+        sortedPosts.length > 0 ? (
+          sortedPosts.map((post) => (
+            <ArticleCard
+              title={post.data.title}
+              description={post.data.description}
+              url={`/blog/${post.id}`}
+              date={post.data.publishedAt}
+              tags={post.data.tags}
+            />
+          ))
+        ) : (
+          <p class="no-posts">이 카테고리에 아직 포스트가 없습니다.</p>
+        )
+      }
+    </ContentList>
+  </Container>
+</BaseLayout>
+
+<style>
+  .categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  
+  .categories a {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background-color: var(--hover-bg);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    transition: all var(--transition-base);
+  }
+  
+  .categories a:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+  }
+  
+  .categories a.active {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .no-posts {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem 0;
+  }
+</style>

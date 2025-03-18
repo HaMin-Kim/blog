@@ -1,0 +1,31 @@
+{
+  "home": {
+    "name": "김하민",
+    "title": "백엔드 개발자",
+    "introduction": "이런저런소개소개소개소개",
+    "sections": {
+      "blog": {
+        "title": "latest post",
+        "viewAllText": "View all posts"
+      },
+      "projects": {
+        "title": "Projects",
+        "viewAllText": "View all projects"
+      },
+      "experience": {
+        "title": "Experience",
+        "viewAllText": "View full résumé"
+      }
+    },
+    "socialLinks": [
+      {
+        "platform": "GitHub",
+        "url": "https://github.com/HaMin-Kim"
+      },
+      {
+        "platform": "Linkedin",
+        "url": "https://www.linkedin.com/in/%ED%95%98%EB%AF%BC-%EA%B9%80-85aa66246/"
+      }
+    ]
+  }
+}
