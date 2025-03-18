@@ -26,27 +26,27 @@ const formatDate = (date: Date) => {
 const categoryName = CATEGORIES.find(cat => cat.slug === post.data.category)?.name || post.data.category;
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="post">
-    <header>
-      <h1>{post.data.title}</h1>
-      <div class="meta">
-        <time datetime={post.data.publishedAt.toISOString()}>
-          {formatDate(post.data.publishedAt)}
-        </time>
-        <span class="category">
-          <a href={`/blog/category/${post.data.category}`}>{categoryName}</a>
-        </span>
+  <BaseLayout title={post.data.title} description={post.data.description}>
+    <article class="post">
+      <header>
+        <h1>{post.data.title}</h1>
+        <div class="meta">
+          <time datetime={post.data.publishedAt.toISOString()}>
+            {formatDate(post.data.publishedAt)}
+          </time>
+          <span class="category">
+            <a href={`/blog/category/${post.data.category}`}>{categoryName}</a>
+          </span>
+        </div>
+      </header>
+      <div class="content">
+        <Content />
       </div>
-    </header>
-    <div class="content">
-      <Content />
-    </div>
-  </article>
-</BaseLayout>
+    </article>
+  </BaseLayout>
 
 <style>
-  main {
+   main {
     width: 100%;
     max-width: 640px;
     margin: 0 auto;
@@ -148,9 +148,4 @@ const categoryName = CATEGORIES.find(cat => cat.slug === post.data.category)?.na
     margin: 0.5rem 0;
   }
 
-  @media (max-width: 640px) {
-    main {
-      padding: 1rem;
-    }
-  }
 </style>
