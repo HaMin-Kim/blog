@@ -17,7 +17,6 @@
   --text-3xl: 1.5rem;
   --text-color: #333333; /* 어두운 회색 텍스트 색상 추가 */
   --text-muted: #718096; /* 흐린 텍스트 색상 추가 */
-  --link-color: #4F46E5; /* 링크 색상 추가 */
   --border-color: #E2E8F0; /* 경계선 색상 추가 */
   --hover-bg: #F8FAFC; /* 호버 배경 색상 추가 */
   --bg-color: #f1f5f9; /* 배경 색상 추가 */
@@ -79,22 +78,23 @@ body {
 
 main {
   width: 100%;
-  max-width: 800px; /* 너비를 늘림 */
-  margin: 2rem auto; /* 상하 여백 추가 */
-  padding: 2rem 2rem; /* 내부 여백 추가 */
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem 2rem;
   position: relative;
   overflow-x: hidden;
-  background-color: white; /* 흰색 배경 추가 */
-  border-radius: 1rem; /* 모서리 둥글게 */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
+
 
 .date, .tag {
   color: var(--text-muted);
   font-size: var(--text-sm);
   font-weight: 400;
 }
-
 
 /* main {
   width: 100%;
@@ -139,16 +139,6 @@ main {
   height: 2px;
   background-color: var(--link-color);
   border-radius: 2px;
-}
-
-@media (max-width: 640px) {
-  main {
-    padding: 1rem 0;
-  }
-
-  .nav-container {
-    padding: 0 1rem;
-  }
 }
 
 body::after {
@@ -266,12 +256,6 @@ p {
   letter-spacing: -0.03em;
 }
 
-a {
-  color: var(--link-color);
-  text-decoration: none;
-  position: relative;
-  transition: opacity var(--link-animation-duration);
-}
 
 a:not(.category-link)::after {
   content: "";
@@ -550,45 +534,57 @@ h1, h2, h3 {
   }
 }
 
-/* 카테고리 버튼 스타일 수정 */
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
 .categories a,
-a[href^="/blog/category/"] {
+a[href^="/blog/category/"],
+.category-link {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   background-color: var(--hover-bg);
-  color: var(--text-color) !important; /* 텍스트 색상 강제 적용 */
+  color: var(--text-muted);
   font-size: var(--text-sm);
   text-decoration: none;
+  transition: all 0.2s ease;
   border: 1px solid var(--border-color);
-  transition: background-color 0.2s ease;
-  display: inline-block; /* 영역을 확실히 잡도록 */
+  line-height: 1.5;
+  display: inline-flex;
+  align-items: center;
+  height: auto;
+  min-height: 36px;
 }
 
 .categories a:hover,
-a[href^="/blog/category/"]:hover {
+a[href^="/blog/category/"]:hover,
+.category-link:hover {
   background-color: var(--border-color);
+  color: var(--text-color);
 }
 
 .categories a.active,
-a[href^="/blog/category/"].active {
-  background-color: var(--link-color);
-  color: white !important; /* 활성화된 버튼은 흰색 텍스트 */
-  border-color: var(--link-color);
+a[href^="/blog/category/"].active,
+.category-link.active {
+  color: var(--bg-color);
+  border-color: var(--text-color);
 }
 
 /* 모든 카테고리 버튼 링크는 밑줄 효과 제거 */
 .categories a::after,
 a[href^="/blog/category/"]::after,
-.categories a:hover::after,
-a[href^="/blog/category/"]:hover::after {
-  display: none !important;
+.category-link::after {
+  display: none;
 }
 
 /* 추가: 빈 링크 처리 */
 .categories a:empty,
 a[href^="/blog/category/"]:empty {
-  min-width: 80px; /* 최소 너비 지정 */
-  text-align: center; /* 내용 중앙 정렬 */
-  background-color: #E2E8F0; /* 배경색 명확하게 지정 */
-  color: #4B5563 !important; /* 텍스트 색상 어둡게 */
+  min-width: 80px;
+  text-align: center;
+  background-color: #E2E8F0;
+  color: #4B5563;
 }

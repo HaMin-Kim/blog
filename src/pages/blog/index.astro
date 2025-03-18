@@ -44,89 +44,98 @@ console.log("Filtered posts:", filteredPosts.map(post => post.data.title));
 console.log("Category counts:", categoryCounts);
 ---
 
-<BaseLayout title="Blog" description="Read my latest blog posts">
-  <Container>
-    <BaseHero title="Blog" description="Read my latest blog posts" />
-    
-    <div class="categories">
-      <a href="/blog" class="fixed-category" style="display: inline-block !important; padding: 0.5rem 1rem !important; border-radius: 9999px !important; background-color: #4F46E5 !important; color: white !important; font-size: 0.875rem !important; border: 1px solid #4F46E5 !important; text-decoration: none !important; margin-right: 0.5rem !important;">
-        All ({posts.length})
-      </a>
+  <BaseLayout title="Blog" description="Read my latest blog posts">
+    <Container>
+      <BaseHero title="Blog" description="Read my latest blog posts" />
+      <div class="categories">
+        <a 
+          href="/blog" 
+          class:list={[
+            "category-link",
+            { active: currentCategory === "all" }
+          ]}
+        >
+          All ({posts.length})
+        </a>
+        
+        <a 
+          href="/blog/category/network" 
+          class:list={[
+            "category-link",
+            { active: currentCategory === "network" }
+          ]}
+        >
+          네트워크 ({posts.filter(post => post.data.category === 'network').length})
+        </a>
+        
+        <a 
+          href="/blog/category/cloud" 
+          class:list={[
+            "category-link",
+            { active: currentCategory === "cloud" }
+          ]}
+        >
+          클라우드 ({posts.filter(post => post.data.category === 'cloud').length})
+        </a>
+      </div>
       
-      <a href="/blog/category/network" class="fixed-category" style="display: inline-block !important; padding: 0.5rem 1rem !important; border-radius: 9999px !important; background-color: #4F46E5 !important; color: white !important; font-size: 0.875rem !important; border: 1px solid #4F46E5 !important; text-decoration: none !important; margin-right: 0.5rem !important;">
-        네트워크 ({posts.filter(post => post.data.category === 'network').length})
-      </a>
-      
-      <a href="/blog/category/cloud" class="fixed-category" style="display: inline-block !important; padding: 0.5rem 1rem !important; border-radius: 9999px !important; background-color: #4F46E5 !important; color: white !important; font-size: 0.875rem !important; border: 1px solid #4F46E5 !important; text-decoration: none !important; margin-right: 0.5rem !important;">
-        클라우드 ({posts.filter(post => post.data.category === 'cloud').length})
-      </a>
-    </div>
-    
-    <ContentList>
-      {
-        sortedPosts.length > 0 ? (
-          sortedPosts.map((post) => (
-            <ArticleCard
-              title={post.data.title}
-              description={post.data.description}
-              url={`/blog/${post.id}`}
-              date={post.data.publishedAt}
-              tags={post.data.tags}
-            />
-          ))
-        ) : (
-          <p class="no-posts">이 카테고리에 아직 포스트가 없습니다.</p>
-        )
-      }
-    </ContentList>
-  </Container>
-</BaseLayout>
+      <ContentList>
+        {
+          sortedPosts.length > 0 ? (
+            sortedPosts.map((post) => (
+              <ArticleCard
+                title={post.data.title}
+                description={post.data.description}
+                url={`/blog/${post.id}`}
+                date={post.data.publishedAt}
+                tags={post.data.tags}
+              />
+            ))
+          ) : (
+            <p class="no-posts">이 카테고리에 아직 포스트가 없습니다.</p>
+          )
+        }
+      </ContentList>
+    </Container>
+  </BaseLayout>
 
-<style>
-  .categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-  }
-  
-  /* 모든 상태에서 동일한 스타일 강제 적용 */
-  .fixed-category,
-  .fixed-category:visited,
-  .fixed-category:active,
-  .fixed-category:hover,
-  .fixed-category:link,
-  .fixed-category:focus {
-    display: inline-block !important;
-    padding: 0.5rem 1rem !important;
-    border-radius: 9999px !important;
-    background-color: #4F46E5 !important;
-    color: white !important;
-    font-size: 0.875rem !important;
-    border: 1px solid #4F46E5 !important;
-    text-decoration: none !important;
-  }
-  
-  /* 밑줄 효과 제거 */
-  .fixed-category::after {
-    display: none !important;
-  }
-  
-  /* 전역 스타일 오버라이드 */
-  a.fixed-category {
-    background-color: #4F46E5 !important;
-    color: white !important;
-  }
-  
-  /* active 클래스도 오버라이드 */
-  a.fixed-category.active {
-    background-color: #4F46E5 !important;
-    color: white !important;
-  }
-  
-  .no-posts {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 2rem 0;
-  }
-</style>
+  <style>
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    
+    .category-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      transition: color var(--transition-base);
+      position: relative;
+    }
+
+    .category-link:hover {
+      color: var(--text-color);
+    }
+
+    .category-link.active {
+      color: var(--text-color);
+    }
+
+    .category-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--text-muted);
+    }
+
+    .no-posts {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem 0;
+    }
+  </style>
