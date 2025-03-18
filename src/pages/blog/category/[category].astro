@@ -46,7 +46,7 @@ const categoryCounts = CATEGORIES.map(cat => {
         categoryCounts.map((cat) => (
           <a 
             href={cat.slug === "all" ? "/blog" : `/blog/category/${cat.slug}`}
-            class:list={[{ active: category === cat.slug }]}
+            class:list={[{ active: cat.slug !== "all" && category === cat.slug }]}
           >
             {cat.name} ({cat.count})
           </a>

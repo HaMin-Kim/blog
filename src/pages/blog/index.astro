@@ -52,9 +52,8 @@ console.log("Category counts:", categoryCounts);
       {
         categoryCounts.map((cat) => (
           <a 
-            href={`/blog?category=${cat.slug}`} 
+            href={cat.slug === "all" ? "/blog" : `/blog/category/${cat.slug}`} 
             class:list={[{ active: currentCategory === cat.slug }]}
-            data-astro-reload
           >
             {cat.name} ({cat.count})
           </a>
