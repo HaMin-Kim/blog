@@ -49,16 +49,17 @@ console.log("Category counts:", categoryCounts);
     <BaseHero title="Blog" description="Read my latest blog posts" />
     
     <div class="categories">
-      {
-        categoryCounts.map((cat) => (
-          <a 
-            href={cat.slug === "all" ? "/blog" : `/blog/category/${cat.slug}`} 
-            class:list={[{ active: currentCategory === cat.slug }]}
-          >
-            {cat.name} ({cat.count})
-          </a>
-        ))
-      }
+      <a href="/blog" class="fixed-category" style="display: inline-block !important; padding: 0.5rem 1rem !important; border-radius: 9999px !important; background-color: #4F46E5 !important; color: white !important; font-size: 0.875rem !important; border: 1px solid #4F46E5 !important; text-decoration: none !important; margin-right: 0.5rem !important;">
+        All ({posts.length})
+      </a>
+      
+      <a href="/blog/category/network" class="fixed-category" style="display: inline-block !important; padding: 0.5rem 1rem !important; border-radius: 9999px !important; background-color: #4F46E5 !important; color: white !important; font-size: 0.875rem !important; border: 1px solid #4F46E5 !important; text-decoration: none !important; margin-right: 0.5rem !important;">
+        네트워크 ({posts.filter(post => post.data.category === 'network').length})
+      </a>
+      
+      <a href="/blog/category/cloud" class="fixed-category" style="display: inline-block !important; padding: 0.5rem 1rem !important; border-radius: 9999px !important; background-color: #4F46E5 !important; color: white !important; font-size: 0.875rem !important; border: 1px solid #4F46E5 !important; text-decoration: none !important; margin-right: 0.5rem !important;">
+        클라우드 ({posts.filter(post => post.data.category === 'cloud').length})
+      </a>
     </div>
     
     <ContentList>
@@ -89,24 +90,38 @@ console.log("Category counts:", categoryCounts);
     margin-bottom: 2rem;
   }
   
-  .categories a {
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    background-color: var(--hover-bg);
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    text-decoration: none;
-    transition: all var(--transition-base);
+  /* 모든 상태에서 동일한 스타일 강제 적용 */
+  .fixed-category,
+  .fixed-category:visited,
+  .fixed-category:active,
+  .fixed-category:hover,
+  .fixed-category:link,
+  .fixed-category:focus {
+    display: inline-block !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 9999px !important;
+    background-color: #4F46E5 !important;
+    color: white !important;
+    font-size: 0.875rem !important;
+    border: 1px solid #4F46E5 !important;
+    text-decoration: none !important;
   }
   
-  .categories a:hover {
-    background-color: var(--border-color);
-    color: var(--text-color);
+  /* 밑줄 효과 제거 */
+  .fixed-category::after {
+    display: none !important;
   }
   
-  .categories a.active {
-    background-color: var(--primary-color);
-    color: white;
+  /* 전역 스타일 오버라이드 */
+  a.fixed-category {
+    background-color: #4F46E5 !important;
+    color: white !important;
+  }
+  
+  /* active 클래스도 오버라이드 */
+  a.fixed-category.active {
+    background-color: #4F46E5 !important;
+    color: white !important;
   }
   
   .no-posts {

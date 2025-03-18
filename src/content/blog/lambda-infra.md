@@ -1,37 +1,64 @@
 ---
-title: "lambda 인프라 구성 (feat vpc)"
+title: "lambda 인프라 구성(feat vpc, 보안그룹 참조)"
 description: "A deep dive into creating a fast, modern portfolio website using Astro, focusing on performance and developer experience."
 publishedAt: 2024-04-01
 category: "cloud"
 ---
 
-Building a modern portfolio website requires careful consideration of performance, user experience, and maintainability. In this post, I'll share my experience building this website using Astro, a modern static site generator that offers excellent performance out of the box.
+어느날 ai 엔지니어 분이 찾아와 도비에게 미션을 주셨어요~
 
-## Why Astro?
+RDS에서 <데이터를 가져온 후 구글 빅쿼리로 요청을 보내는> 람다 함수를 만들었는데 제대로 동작하지 않아요! 해결해주세요!
 
-Astro has become my go-to choice for static websites due to its unique approach to JavaScript - it ships zero JavaScript by default unless explicitly needed. This results in incredibly fast page loads and excellent performance scores.
+이 글은 이 미션을 해결하면서 알아볼 수 있는 VPC에 대한 내용을 정리한 글입니다.
 
-## Key Features
 
-1. **Zero JavaScript by Default**: Pages load incredibly fast with minimal JavaScript
-2. **Content Collections**: Markdown-based content management with type safety
-3. **View Transitions**: Smooth page transitions for a native app-like feel
-4. **Excellent DX**: TypeScript support and great developer tooling
 
-## Performance Optimizations
+## 어떤 동작이 안되었는가?
+RDS와의 연결 자체가 되지 않았습니다. 이유는 여러가지 일 수 있는데 우선 RDS는 현재 프라이빗 서브넷에 위치해 있으며, 특정 ip의 접근만 허용하는 인바운드 규칙이 적용되어 있습니다.
 
-The site achieves perfect Lighthouse scores through several optimizations:
-- Preloaded fonts with font-display: swap
-- Optimized images with proper sizing and formats
-- Minimal CSS with no unused styles
-- Strategic use of preloading for critical resources
+그리고 생성된 람다 함수는 어떤 vpc에도 연결되어 있지 않았습니다.
 
-## Design Decisions
+이 경우 2가지 문제가 있을 수 있습니다.
 
-The design focuses on readability and minimalism while maintaining visual interest through:
-- Subtle animations and transitions
-- Strategic use of whitespace
-- Typography-first approach
-- Dark theme optimization
+1. RDS는 프라이빗 서브넷에 존재하며, 이 경우 외부에서의 접근은 불가능하다.
+2. RDS는 인바운드 규칙을 가지고 있다. 특정 ip의 접근이 가능하도록 열어줘야 하는데 람다는 고정된 ip를 가지고 있지 않다.
 
-Building a portfolio is more than just showcasing work - it's about creating an experience that reflects your attention to detail and technical expertise. 
+이 상황을 해결할 수 있는 심플한 방법이 있습니다.
+
+람다를 RDS와 같은 VPC에서 생성하면 우선 첫째에 해당하는 문제는 해결할 수 있습니다.
+
+고정된 ip가 없는 상태에서 어떻게 rds의 인바운드 규칙을 통해 람다에서의 접근을 허용할 수 있을까요?
+
+- 람다에 고정 ip를 부여할 수 있는 방법?
+  - NAT 게이트웨이를 사용하면 람다에 고정 ip를 부여할 수 있습니다.
+  - 하지만 얜 너무 비쌉니다.
+  - 그리고 NAT 게이트웨이는 프라이빗 서브넷에 있는 리소스가 외부 인터넷으로 나갈 때 공인 ip를 부여해주는 역할을 합니다.
+  - 같은 VPC 내의 통신에서는 인터넷을 경유하지 않으므로 NAT 게이트웨이를 거치지 않습니다.
+  - 즉 람다에 고정 ip를 부여하는 방법으로 해결하려면 (람다를 rds와 다른 vpc로 연결한다, nat gateway를 통해 rds와 통신한다, rds를 퍼블릭 서브넷에 위치한다)
+
+  주절주절 길었는데 결국 매우 매우 좋지 않은 방법입니다. (킹치만 vpc, 서브넷 등의 지식이 매우 낮았던 당시 과거 람다에 고정 ip를 달고 외부 기업과 b2b 관련 통신을 했던 기억에 의존해 실제 이 방법을 시도하려 했습니다;)
+
+- rds의 인바운드 규칙을 모두 허용하도록 한다.
+  - 기본적으로 프라이빗 서브넷은 외부 인터넷에서의 접근이 모두 막혀있습니다.
+  - 그렇다면 이론적으로 프라이빗 서브넷 내에서는 인바운드를 다 열어줘도 되는거 아닌가? 생각할 수 있습니다. (제가 그 생각을 가지고 있습니다. 여전히)
+  - 그치만 우리의 GPT 사수님은 vpc도 절대 안전을 보장할 수 없다고 합니다(맞는 말이지만 그렇게 따지면 사실 모든게 다..)
+
+자 마지막으로 가장 좋은 해결책이라고 판단되는 방법입니다.
+- rds의 인바운드 규칙에 람다가 속한 보안그룹을 소스로 참조하여 허용한다.
+
+같은 vpc 내에서는 인바운드 규칙에 ip가 아닌 보안그룹을 참조할 수 있습니다.
+무슨 말이냐면 해당 보안그룹에 연결된 모든 인스턴스들에 대한 요청을 허용하도록 할 수 있다는 겁니다.
+
+이게 가능한 이유는 **AWS가 내부적으로 네트워크 가상화(SND)을 사용하여 동적으로 IP 주소를 관리**하기 때문입니다.
+
+조금 더 잘 이해하기 위해서는 아래 내용을 인지해야 합니다.
+
+1. 보안그룹은 연결된 인스턴스의 내부 IP(Private IP)만 참조하도록 설계되어 있다.
+2. 내부 IP는 VPC라는 논리적으로 구분된 네트워크 내에만 생성된다.
+3. 즉 보안그룹이 연결하는 인스턴스의 내부 IP는 특정 vpc에 속해있다 -> 보안그룹은 특정 VPC와 연결 되어있다.
+
+이를 기반으로 요구사항이던 람다에 사례를 다시 보자면
+
+람다는 비록 고정된 ip는 없지만 특정 보안그룹과 연결할 수 있습니다.
+
+그리고 보

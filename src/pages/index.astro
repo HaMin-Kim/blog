@@ -44,9 +44,16 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
 <BaseLayout title={`${site.name} - Portfolio`} description={site.introduction}>
   <Container>
     <section class="hero">
-      <h1>{site.name}</h1>
-      <p class="subtitle">{site.title}</p>
-      <p class="introduction">{site.introduction}</p>
+      <div class="profile-container">
+        <div class="profile-info">
+          <h1>{site.name}</h1>
+          <p class="subtitle">{site.title}</p>
+          <p class="introduction">{site.introduction}</p>
+        </div>
+        
+        <img src="/images/profile.jpg" alt={`${site.name} 프로필 사진`} class="profile-image">
+      </div>
+      
       {
         site.socialLinks && (
           <div class="social-links">
