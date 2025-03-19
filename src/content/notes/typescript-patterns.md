@@ -1,8 +1,8 @@
 ---
-title: "Advanced TypeScript Patterns"
-description: "A collection of useful TypeScript patterns and when to use them"
+title: 'Advanced TypeScript Patterns'
+description: 'A collection of useful TypeScript patterns and when to use them'
 publishedAt: 2024-01-15
-category: "TypeScript"
+category: 'TypeScript'
 ---
 
 Here are some TypeScript patterns I've found particularly useful:
@@ -22,9 +22,9 @@ function isError(value: unknown): value is Error {
 Perfect for handling different states:
 
 ```typescript
-type State = 
+type State =
   | { status: 'idle' }
   | { status: 'loading' }
-  | { status: 'success', data: string }
-  | { status: 'error', error: Error }
-``` 
+  | { status: 'success'; data: string }
+  | { status: 'error'; error: Error };
+```

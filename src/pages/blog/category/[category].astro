@@ -1,38 +1,44 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../../../components/layout/BaseLayout.astro";
-import BaseHero from "../../../components/shared/BaseHero.astro";
-import ArticleCard from "../../../components/ui/ArticleCard.astro";
-import Container from "../../../components/ui/Container.astro";
-import ContentList from "../../../components/shared/ContentList.astro";
-import { CATEGORIES } from "../../../constants/site";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import BaseHero from '../../../components/shared/BaseHero.astro';
+import ArticleCard from '../../../components/ui/ArticleCard.astro';
+import Container from '../../../components/ui/Container.astro';
+import ContentList from '../../../components/shared/ContentList.astro';
+import { CATEGORIES } from '../../../constants/site';
+import Categories from '../../../components/shared/Categories.astro';
 
 export async function getStaticPaths() {
-  return CATEGORIES.map(category => ({
+  return CATEGORIES.map((category) => ({
     params: { category: category.slug },
-    props: { category }
+    props: { category },
   }));
 }
 
 const { category } = Astro.params;
 
-const posts = await getCollection("blog", ({ data }) => {
+const posts = await getCollection('blog', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-const filteredPosts = category === "all" 
-  ? posts 
-  : posts.filter(post => {
-      if (!post.data.category) return false;
-      return String(post.data.category) === String(category);
-    });
+const filteredPosts =
+  category === 'all'
+    ? posts
+    : posts.filter((post) => {
+        if (!post.data.category) return false;
+        return String(post.data.category) === String(category);
+      });
 
-const sortedPosts = filteredPosts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+const sortedPosts = filteredPosts.sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
 
-const categoryCounts = CATEGORIES.map(cat => {
-  const count = cat.slug === "all" 
-    ? posts.length 
-    : posts.filter(post => post.data.category && String(post.data.category) === cat.slug).length;
+const categoryCounts = CATEGORIES.map((cat) => {
+  const count =
+    cat.slug === 'all'
+      ? posts.length
+      : posts.filter((post) => post.data.category && String(post.data.category) === cat.slug)
+          .length;
   return { ...cat, count };
 });
 ---
@@ -40,20 +46,12 @@ const categoryCounts = CATEGORIES.map(cat => {
 <BaseLayout title="Blog" description="Read my latest blog posts">
   <Container>
     <BaseHero title="Blog" description="Read my latest blog posts" />
-    
-    <div class="categories">
-      {
-        categoryCounts.map((cat) => (
-          <a 
-            href={cat.slug === "all" ? "/blog" : `/blog/category/${cat.slug}`}
-            class:list={[{ active: cat.slug !== "all" && category === cat.slug }]}
-          >
-            {cat.name} ({cat.count})
-          </a>
-        ))
-      }
-    </div>
-    
+    <Categories
+      categories={CATEGORIES.map((cat) => cat.slug)}
+      currentPath={Astro.url.pathname}
+      basePath="blog/category"
+    />
+
     <ContentList>
       {
         sortedPosts.length > 0 ? (
@@ -81,26 +79,25 @@ const categoryCounts = CATEGORIES.map(cat => {
     gap: 0.75rem;
     margin-bottom: 2rem;
   }
-  
+
   .categories a {
     padding: 0.5rem 1rem;
     border-radius: 9999px;
     background-color: var(--hover-bg);
-    color: var(--text-muted);
+    color: var(--text-color);
     font-size: var(--text-sm);
     text-decoration: none;
     transition: all var(--transition-base);
   }
-  
+
   .categories a:hover {
     background-color: var(--border-color);
     color: var(--text-color);
   }
-  
-  
+
   .no-posts {
     text-align: center;
     color: var(--text-muted);
     padding: 2rem 0;
   }
-</style> 
+</style>

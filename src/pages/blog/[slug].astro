@@ -1,11 +1,11 @@
 ---
-import { getCollection, render } from "astro:content";
-import type { GetStaticPaths } from "astro";
-import BaseLayout from "../../components/layout/BaseLayout.astro";
-import { CATEGORIES } from "../../constants/site";
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import { CATEGORIES } from '../../constants/site';
 
 export const getStaticPaths = (async () => {
-  const posts = await getCollection("blog");
+  const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -16,37 +16,38 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 
 const formatDate = (date: Date) => {
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 };
 
-const categoryName = CATEGORIES.find(cat => cat.slug === post.data.category)?.name || post.data.category;
+const categoryName =
+  CATEGORIES.find((cat) => cat.slug === post.data.category)?.name || post.data.category;
 ---
 
-  <BaseLayout title={post.data.title} description={post.data.description}>
-    <article class="post">
-      <header>
-        <h1>{post.data.title}</h1>
-        <div class="meta">
-          <time datetime={post.data.publishedAt.toISOString()}>
-            {formatDate(post.data.publishedAt)}
-          </time>
-          <span class="category">
-            <a href={`/blog/category/${post.data.category}`}>{categoryName}</a>
-          </span>
-        </div>
-      </header>
-      <div class="content">
-        <Content />
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="post">
+    <header>
+      <h1>{post.data.title}</h1>
+      <div class="meta">
+        <time datetime={post.data.publishedAt.toISOString()}>
+          {formatDate(post.data.publishedAt)}
+        </time>
+        <span class="category">
+          <a href={`/blog/category/${post.data.category}`} class="category-link">{categoryName}</a>
+        </span>
       </div>
-    </article>
-  </BaseLayout>
+    </header>
+    <div class="content">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
 
 <style>
-   main {
+  main {
     width: 100%;
     max-width: 640px;
     margin: 0 auto;
@@ -147,5 +148,4 @@ const categoryName = CATEGORIES.find(cat => cat.slug === post.data.category)?.na
   .content :global(li) {
     margin: 0.5rem 0;
   }
-
 </style>

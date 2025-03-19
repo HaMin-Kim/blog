@@ -1,9 +1,9 @@
 ---
-title: "Node.js Logging: The Art of Digital Breadcrumbs"
-description: "A comprehensive guide to implementing effective logging in Node.js applications"
+title: 'Node.js Logging: The Art of Digital Breadcrumbs'
+description: 'A comprehensive guide to implementing effective logging in Node.js applications'
 publishedAt: 2024-09-10
-tags: ["nodejs", "logging", "debugging", "monitoring", "best-practices"]
-category: "network"
+tags: ['nodejs', 'logging', 'debugging', 'monitoring', 'best-practices']
+category: 'network'
 ---
 
 ## The Importance of Logging
@@ -19,21 +19,20 @@ const winston = require('winston');
 
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   transports: [
     new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' })
-  ]
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
 });
 
 // Development logging
 if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple()
-  }));
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    }),
+  );
 }
 ```
 
@@ -48,8 +47,8 @@ logger.info('User action', {
   timestamp: new Date().toISOString(),
   metadata: {
     ip: '192.168.1.1',
-    userAgent: 'Mozilla/5.0...'
-  }
+    userAgent: 'Mozilla/5.0...',
+  },
 });
 ```
 
@@ -58,6 +57,7 @@ logger.info('User action', {
 Think of log levels as different types of breadcrumbs:
 
 1. **ERROR**: Something's broken and needs immediate attention
+
 ```javascript
 try {
   await processPayment(order);
@@ -65,34 +65,37 @@ try {
   logger.error('Payment processing failed', {
     orderId: order.id,
     error: error.message,
-    stack: error.stack
+    stack: error.stack,
   });
 }
 ```
 
 2. **WARN**: Something's not quite right, but the system can handle it
+
 ```javascript
 if (retries > maxRetries) {
   logger.warn('Max retries reached for operation', {
     operation: 'fetchUserData',
-    attempts: retries
+    attempts: retries,
   });
 }
 ```
 
 3. **INFO**: Notable events in the application's lifecycle
+
 ```javascript
 logger.info('Server started', {
   port: process.env.PORT,
-  environment: process.env.NODE_ENV
+  environment: process.env.NODE_ENV,
 });
 ```
 
 4. **DEBUG**: Detailed information for debugging
+
 ```javascript
 logger.debug('Cache miss', {
   key: cacheKey,
-  timestamp: Date.now()
+  timestamp: Date.now(),
 });
 ```
 
@@ -114,7 +117,7 @@ const requestLogger = async (ctx, next) => {
       path: ctx.path,
       status: ctx.status,
       duration: `${ms}ms`,
-      requestId: ctx.requestId
+      requestId: ctx.requestId,
     });
   }
 };
@@ -137,7 +140,7 @@ class ApplicationError extends Error {
 try {
   throw new ApplicationError('Invalid input', {
     userId: '123',
-    inputData: data
+    inputData: data,
   });
 } catch (error) {
   logger.error('Operation failed', {
@@ -145,8 +148,8 @@ try {
       message: error.message,
       name: error.name,
       context: error.context,
-      stack: error.stack
-    }
+      stack: error.stack,
+    },
   });
 }
 ```
@@ -158,18 +161,18 @@ Use logs to track performance metrics:
 ```javascript
 const performanceLogger = async (ctx, next) => {
   const start = process.hrtime();
-  
+
   try {
     await next();
   } finally {
     const [seconds, nanoseconds] = process.hrtime(start);
     const duration = seconds * 1000 + nanoseconds / 1000000;
-    
+
     logger.info('Performance metric', {
       endpoint: ctx.path,
       method: ctx.method,
       duration: `${duration.toFixed(2)}ms`,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 };
@@ -180,6 +183,7 @@ const performanceLogger = async (ctx, next) => {
 Collecting logs is only half the battle. Here's how to make them useful:
 
 1. **Centralized Logging**
+
 ```javascript
 const winston = require('winston');
 require('winston-elasticsearch');
@@ -187,13 +191,14 @@ require('winston-elasticsearch');
 const esTransport = new winston.transports.Elasticsearch({
   level: 'info',
   clientOpts: { node: 'http://localhost:9200' },
-  indexPrefix: 'logs'
+  indexPrefix: 'logs',
 });
 
 logger.add(esTransport);
 ```
 
 2. **Log Rotation**
+
 ```javascript
 const { createLogger, transports } = require('winston');
 require('winston-daily-rotate-file');
@@ -202,11 +207,11 @@ const fileRotateTransport = new transports.DailyRotateFile({
   filename: 'logs/app-%DATE%.log',
   datePattern: 'YYYY-MM-DD',
   maxSize: '20m',
-  maxFiles: '14d'
+  maxFiles: '14d',
 });
 
 const logger = createLogger({
-  transports: [fileRotateTransport]
+  transports: [fileRotateTransport],
 });
 ```
 
@@ -223,7 +228,7 @@ const sanitizeUser = (user) => ({
 
 logger.info('User profile updated', {
   user: sanitizeUser(user),
-  changes: sanitizeChanges(changes)
+  changes: sanitizeChanges(changes),
 });
 ```
 
@@ -231,4 +236,4 @@ logger.info('User profile updated', {
 
 Effective logging is an art that balances detail with clarity, performance with thoroughness. By following these practices, you'll create logs that are not just records of what happened, but valuable tools for understanding and improving your application.
 
-Remember: Good logs are like good documentation - they tell a story. Make sure your logs tell the story you need to hear when things go wrong. 
+Remember: Good logs are like good documentation - they tell a story. Make sure your logs tell the story you need to hear when things go wrong.

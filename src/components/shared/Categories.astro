@@ -7,45 +7,38 @@ interface Props {
 }
 
 const { categories, currentPath, plural, basePath } = Astro.props;
+
+const getCategoryUrl = (category: string) => {
+  if (category === 'all') {
+    return basePath === 'blog/category' ? '/blog' : `/${basePath}`;
+  }
+  return `/${basePath}/${category}`;
+};
+
+const isActive = (category: string) => {
+  if (category === 'all') {
+    return currentPath === '/blog' || currentPath === `/${basePath}`;
+  }
+  return (
+    currentPath === `/${basePath}/${category}` || currentPath.includes(`/${basePath}/${category}`)
+  );
+};
 ---
 
 <div class="categories">
-  <a href={`/${basePath}`} class:list={["category-link", { active: currentPath === `/${basePath}` }]}> All </a>
+  <a href={getCategoryUrl('all')} class:list={['category-link', { active: isActive('all') }]}>
+    All
+  </a>
   {
-    categories.map((category) => (
-      <a
-        href={`/${basePath}/${category}`}
-        class:list={["category-link", { active: currentPath === `/${basePath}/${category}` }]}
-      >
-        {category + (plural ? "s" : "")}
-      </a>
-    ))
+    categories
+      .filter((category) => category !== 'all')
+      .map((category) => (
+        <a
+          href={getCategoryUrl(category)}
+          class:list={['category-link', { active: isActive(category) }]}
+        >
+          {category + (plural ? 's' : '')}
+        </a>
+      ))
   }
 </div>
-
-<style>
-  .categories {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-
-  .category-link {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    border: 1px solid var(--border-color);
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    text-decoration: none;
-    transition:
-      background var(--transition-base),
-      color var(--transition-base);
-  }
-
-  .category-link:hover,
-  .category-link.active {
-    background: var(--hover-bg);
-    color: var(--text-color);
-  }
-</style>

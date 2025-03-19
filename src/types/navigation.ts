@@ -1,6 +1,6 @@
 export interface NavigationItem {
-    name: string;
-    path: string;
+  name: string;
+  path: string;
 }
 
-export type Navigation = NavigationItem[]; 
+export type Navigation = NavigationItem[];

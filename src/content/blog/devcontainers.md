@@ -1,10 +1,9 @@
 ---
-title: "DevContainers: The Art of Portable Development Environments"
-description: "Pack your dev environment in a box and take it anywhere"
+title: 'DevContainers: The Art of Portable Development Environments'
+description: 'Pack your dev environment in a box and take it anywhere'
 publishedAt: 2024-09-16
-category: "cloud"
-tags: ["devcontainers", "development-environment", "docker", "vscode", "productivity"]
-
+category: 'cloud'
+tags: ['devcontainers', 'development-environment', 'docker', 'vscode', 'productivity']
 ---
 
 ## The Environment Enigma
@@ -23,10 +22,7 @@ Imagine you had a magical box. No matter where you go or what machine you're on,
   "image": "mcr.microsoft.com/devcontainers/javascript-node:0-18",
   "customizations": {
     "vscode": {
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
-      ]
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
     }
   },
   "forwardPorts": [3000],
@@ -41,7 +37,7 @@ Look at that! With just a few lines of JSON, we've defined an entire Node.js dev
 Now, you might be thinking, "Great, another tool I'll never use." But hold your horses, dear developer. This isn't just some fancy trick to impress your coworkers (though it will). It's a game-changer for real-world scenarios.
 
 1. **Onboarding: The New Developer Whisperer**
-Picture this: You've got a new developer joining your team, and you need to get them up and running. Without DevContainers, you'd be sending them a 50-page setup document and praying they don't miss a step. With DevContainers? It's smooth sailing.
+   Picture this: You've got a new developer joining your team, and you need to get them up and running. Without DevContainers, you'd be sending them a 50-page setup document and praying they don't miss a step. With DevContainers? It's smooth sailing.
 
 ```json
 {
@@ -54,11 +50,7 @@ Picture this: You've got a new developer joining your team, and you need to get 
   },
   "customizations": {
     "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "golang.go",
-        "dbaeumer.vscode-eslint"
-      ]
+      "extensions": ["ms-python.python", "golang.go", "dbaeumer.vscode-eslint"]
     }
   },
   "postCreateCommand": "scripts/setup.sh"
@@ -68,7 +60,7 @@ Picture this: You've got a new developer joining your team, and you need to get 
 Your new developer is now a mind reader, instantly synced with your project's environment. Impressive, right?
 
 2. **Cross-Platform Development: The OS Whisperer**
-Logs are the breadcrumbs of the digital world. But what good are they if you can't tell which crumb belongs to which trail? DevContainers to the rescue!
+   Logs are the breadcrumbs of the digital world. But what good are they if you can't tell which crumb belongs to which trail? DevContainers to the rescue!
 
 ```json
 {
@@ -79,11 +71,7 @@ Logs are the breadcrumbs of the digital world. But what good are they if you can
   },
   "customizations": {
     "vscode": {
-      "extensions": [
-        "ms-vscode.cpptools",
-        "twxs.cmake",
-        "ms-vscode.cmake-tools"
-      ]
+      "extensions": ["ms-vscode.cpptools", "twxs.cmake", "ms-vscode.cmake-tools"]
     }
   },
   "runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"]
@@ -109,4 +97,4 @@ Whether you're onboarding new team members, developing cross-platform applicatio
 
 So go forth, dear developer. Embrace the box. Let your code run free, unshackled by the constraints of individual machines. And remember, in the wild west of software development, a well-crafted DevContainer can make all the difference between "It works on my machine" and "It works. Period."
 
-Happy coding, and may your development environments always feel like home, no matter where you are! 
+Happy coding, and may your development environments always feel like home, no matter where you are!

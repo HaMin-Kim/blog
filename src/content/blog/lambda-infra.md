@@ -1,8 +1,8 @@
 ---
-title: "lambda 인프라 구성(feat vpc, 보안그룹 참조)"
-description: "A deep dive into creating a fast, modern portfolio website using Astro, focusing on performance and developer experience."
+title: 'lambda 인프라 구성(feat vpc, 보안그룹 참조)'
+description: 'A deep dive into creating a fast, modern portfolio website using Astro, focusing on performance and developer experience.'
 publishedAt: 2024-04-01
-category: "cloud"
+category: 'cloud'
 ---
 
 어느날 ai 엔지니어 분이 찾아와 도비에게 미션을 주셨어요~
@@ -11,9 +11,8 @@ RDS에서 <데이터를 가져온 후 구글 빅쿼리로 요청을 보내는> �
 
 이 글은 이 미션을 해결하면서 알아볼 수 있는 VPC에 대한 내용을 정리한 글입니다.
 
-
-
 ## 어떤 동작이 안되었는가?
+
 RDS와의 연결 자체가 되지 않았습니다. 이유는 여러가지 일 수 있는데 우선 RDS는 현재 프라이빗 서브넷에 위치해 있으며, 특정 ip의 접근만 허용하는 인바운드 규칙이 적용되어 있습니다.
 
 그리고 생성된 람다 함수는 어떤 vpc에도 연결되어 있지 않았습니다.
@@ -30,6 +29,7 @@ RDS와의 연결 자체가 되지 않았습니다. 이유는 여러가지 일 �
 고정된 ip가 없는 상태에서 어떻게 rds의 인바운드 규칙을 통해 람다에서의 접근을 허용할 수 있을까요?
 
 - 람다에 고정 ip를 부여할 수 있는 방법?
+
   - NAT 게이트웨이를 사용하면 람다에 고정 ip를 부여할 수 있습니다.
   - 하지만 얜 너무 비쌉니다.
   - 그리고 NAT 게이트웨이는 프라이빗 서브넷에 있는 리소스가 외부 인터넷으로 나갈 때 공인 ip를 부여해주는 역할을 합니다.
@@ -44,6 +44,7 @@ RDS와의 연결 자체가 되지 않았습니다. 이유는 여러가지 일 �
   - 그치만 우리의 GPT 사수님은 vpc도 절대 안전을 보장할 수 없다고 합니다(맞는 말이지만 그렇게 따지면 사실 모든게 다..)
 
 자 마지막으로 가장 좋은 해결책이라고 판단되는 방법입니다.
+
 - rds의 인바운드 규칙에 람다가 속한 보안그룹을 소스로 참조하여 허용한다.
 
 같은 vpc 내에서는 인바운드 규칙에 ip가 아닌 보안그룹을 참조할 수 있습니다.

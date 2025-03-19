@@ -1,52 +1,51 @@
 export type NavigationItem = {
-    name: string;
-    path: string;
+  name: string;
+  path: string;
 };
 
 export type Category = {
-    name: string;
-    slug: string;
-    description?: string;
+  name: string;
+  slug: string;
+  description?: string;
 };
 
 export const SITE = {
-    name: "HaminKim",
-    title: "Software Engineer ",
-    description: "Personal portfolio and blog",
-    url: "https://mingu-blog.vercel.app/",
-    defaultImage: "/default-og-image.jpg",
+  name: 'HaminKim',
+  title: 'Software Engineer ',
+  description: 'Personal portfolio and blog',
+  url: 'https://mingu-blog.vercel.app/',
+  defaultImage: '/default-og-image.jpg',
 } as const;
 
 export const NAVIGATION: {
-    main: NavigationItem[];
+  main: NavigationItem[];
 } = {
-    main: [
-        { name: "Home", path: "/" },
-        { name: "Blog", path: "/blog" },
-        { name: "Notes", path: "/notes" },
-        { name: "Bookmarks", path: "/bookmarks" }
-    ],
+  main: [
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Notes', path: '/notes' },
+    { name: 'Bookmarks', path: '/bookmarks' },
+  ],
 } as const;
 
 export const CONTENT = {
-    postsPerPage: 10,
-    recentPostsLimit: 3,
-    featuredProjectsLimit: 3,
+  postsPerPage: 10,
+  recentPostsLimit: 3,
+  featuredProjectsLimit: 3,
 } as const;
 
 export const META = {
-    openGraph: {
-        type: "website",
-        locale: "en_US",
-    },
-    twitter: {
-        cardType: "summary_large_image",
-    }
-    
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+  },
 } as const;
 
 export const CATEGORIES: Category[] = [
-    { name: "All", slug: "all"},
-    { name: "네트워크", slug: "network"},
-    { name: "클라우드", slug: "cloud"},
+  { name: 'All', slug: 'all' },
+  { name: '네트워크', slug: 'network' },
+  { name: '클라우드', slug: 'cloud' },
 ] as const;

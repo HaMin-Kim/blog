@@ -1,44 +1,46 @@
 ---
-import Section from "../components/ui/Section.astro";
-import { getCollection, getEntry } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import BaseLayout from "../components/layout/BaseLayout.astro";
-import ContentList from "../components/shared/ContentList.astro";
-import Container from "../components/ui/Container.astro";
+import Section from '../components/ui/Section.astro';
+import { getCollection, getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import ContentList from '../components/shared/ContentList.astro';
+import Container from '../components/ui/Container.astro';
 
-const siteConfig = await getEntry("site", "home");
+const siteConfig = await getEntry('site', 'home');
 if (!siteConfig) {
-  throw new Error("Site configuration not found");
+  throw new Error('Site configuration not found');
 }
 
 const site = siteConfig.data;
 
 const formatDate = (date: Date | undefined) => {
-  if (!date) return "";
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
+  if (!date) return '';
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
   });
 };
 
-const posts = await getCollection("blog", ({ data }: CollectionEntry<"blog">) => {
+const posts = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 const latestPosts = posts
   .sort(
-    (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
-      b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+    (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
+      b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
   )
   .slice(0, 3);
 
-const experiences = await getCollection("experience");
+const experiences = await getCollection('experience');
 const sortedExperiences = experiences.sort(
-  (a: CollectionEntry<"experience">, b: CollectionEntry<"experience">) =>
-    b.data.startDate.getTime() - a.data.startDate.getTime()
+  (a: CollectionEntry<'experience'>, b: CollectionEntry<'experience'>) =>
+    b.data.startDate.getTime() - a.data.startDate.getTime(),
 );
 
-const projects = await getCollection("projects");
-const featuredProjects = projects.filter((project: CollectionEntry<"projects">) => project.data.featured).slice(0, 3);
+const projects = await getCollection('projects');
+const featuredProjects = projects
+  .filter((project: CollectionEntry<'projects'>) => project.data.featured)
+  .slice(0, 3);
 ---
 
 <BaseLayout title={`${site.name} - Portfolio`} description={site.introduction}>
@@ -50,10 +52,10 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
           <p class="subtitle">{site.title}</p>
           <p class="introduction">{site.introduction}</p>
         </div>
-        
-        <img src="/images/profile.jpg" alt={`${site.name} 프로필 사진`} class="profile-image">
+
+        <img src="/images/profile.jpg" alt={`${site.name} 프로필 사진`} class="profile-image" />
       </div>
-      
+
       {
         site.socialLinks && (
           <div class="social-links">
@@ -79,7 +81,9 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
               <div class="title-row">
                 <a href={`/blog/${post.id}`}>{post.data.title}</a>
                 {post.data.publishedAt && (
-                  <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+                  <time datetime={post.data.publishedAt.toISOString()}>
+                    {formatDate(post.data.publishedAt)}
+                  </time>
                 )}
               </div>
               <p class="muted-text">{post.data.description}</p>
@@ -132,7 +136,8 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
                   <span>{exp.data.title}</span>
                 </div>
                 <time>
-                  {formatDate(exp.data.startDate)} - {exp.data.current ? "Present" : formatDate(exp.data.endDate)}
+                  {formatDate(exp.data.startDate)} -{' '}
+                  {exp.data.current ? 'Present' : formatDate(exp.data.endDate)}
                 </time>
               </div>
               <p class="muted-text">{exp.data.description}</p>

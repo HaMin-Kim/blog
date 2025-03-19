@@ -1,8 +1,8 @@
 ---
-title: "Building a Modern Portfolio Website with Astro"
-description: "A deep dive into creating a fast, modern portfolio website using Astro, focusing on performance and developer experience."
+title: 'Building a Modern Portfolio Website with Astro'
+description: 'A deep dive into creating a fast, modern portfolio website using Astro, focusing on performance and developer experience.'
 publishedAt: 2023-12-15
-category: "cloud"
+category: 'cloud'
 ---
 
 Building a modern portfolio website requires careful consideration of performance, user experience, and maintainability. In this post, I'll share my experience building this website using Astro, a modern static site generator that offers excellent performance out of the box.
@@ -21,6 +21,7 @@ Astro has become my go-to choice for static websites due to its unique approach 
 ## Performance Optimizations
 
 The site achieves perfect Lighthouse scores through several optimizations:
+
 - Preloaded fonts with font-display: swap
 - Optimized images with proper sizing and formats
 - Minimal CSS with no unused styles
@@ -29,9 +30,10 @@ The site achieves perfect Lighthouse scores through several optimizations:
 ## Design Decisions
 
 The design focuses on readability and minimalism while maintaining visual interest through:
+
 - Subtle animations and transitions
 - Strategic use of whitespace
 - Typography-first approach
 - Dark theme optimization
 
-Building a portfolio is more than just showcasing work - it's about creating an experience that reflects your attention to detail and technical expertise. 
+Building a portfolio is more than just showcasing work - it's about creating an experience that reflects your attention to detail and technical expertise.

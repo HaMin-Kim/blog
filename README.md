@@ -8,8 +8,6 @@ A modern, minimalist portfolio website built with Astro and deployed on Cloudfla
 
 This is a personal portfolio website for ByteKai, a Software Engineer and Curious Tinkerer. The site showcases blog posts, technical notes, project work, and professional experience in a clean, fast-loading format.
 
-
-
 ## Features
 
 - 🚀 Built with [Astro](https://astro.build) v5.1
@@ -31,7 +29,7 @@ This is a personal portfolio website for ByteKai, a Software Engineer and Curiou
 
 - **Framework**: [Astro](https://astro.build) 5.1.2
 - **Deployment**: Cloudflare Pages
-- **Fonts**: 
+- **Fonts**:
   - @fontsource/inter
   - @fontsource/roboto-mono
   - @fontsource/source-sans-pro
@@ -59,4 +57,3 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 - [Astro](https://astro.build)
 - [Fontsource](https://fontsource.org)
 - [Tailwind CSS](https://tailwindcss.com)
-
