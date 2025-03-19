@@ -1,12 +1,13 @@
 @property --noise-opacity {
-  syntax: "<number>";
+  syntax: '<number>';
   initial-value: 0.1;
   inherits: false;
 }
 
 :root {
-  --font-primary: "Inter", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "Roboto Mono", Consolas, "Courier New", monospace;
+  --font-primary:
+    'Inter', 'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', Consolas, 'Courier New', monospace;
 
   --text-xs: 0.85rem;
   --text-sm: 0.975rem;
@@ -17,10 +18,10 @@
   --text-3xl: 1.5rem;
   --text-color: #333333; /* 어두운 회색 텍스트 색상 추가 */
   --text-muted: #718096; /* 흐린 텍스트 색상 추가 */
-  --border-color: #E2E8F0; /* 경계선 색상 추가 */
-  --hover-bg: #F8FAFC; /* 호버 배경 색상 추가 */
+  --border-color: #e2e8f0; /* 경계선 색상 추가 */
+  --hover-bg: #f8fafc; /* 호버 배경 색상 추가 */
   --bg-color: #f1f5f9; /* 배경 색상 추가 */
-  --card-bg: #FFFFFF; /* 카드 배경 색상 추가 */
+  --card-bg: #ffffff; /* 카드 배경 색상 추가 */
   --glow-color: rgba(99, 102, 241, 0.15); /* 글로우 색상 조정 */
 
   --link-animation-duration: 0.3s;
@@ -62,7 +63,12 @@ body {
   min-height: 100vh;
   width: 100%;
   margin: 0;
-  font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    'Inter',
+    'Noto Sans KR',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   color: var(--text-color);
   font-size: var(--text-base);
   font-weight: 400;
@@ -88,9 +94,8 @@ main {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-
-
-.date, .tag {
+.date,
+.tag {
   color: var(--text-muted);
   font-size: var(--text-sm);
   font-weight: 400;
@@ -131,7 +136,7 @@ main {
 }
 
 .nav-container a.active::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -4px;
   left: 0;
@@ -142,10 +147,11 @@ main {
 }
 
 body::after {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
-  background-image: linear-gradient(to bottom right, rgba(123, 104, 238, 0.05), rgba(123, 104, 238, 0.02)),
+  background-image:
+    linear-gradient(to bottom right, rgba(123, 104, 238, 0.05), rgba(123, 104, 238, 0.02)),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   background-size: cover, 200px;
   mix-blend-mode: overlay;
@@ -156,7 +162,7 @@ body::after {
 }
 
 body::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -5vh;
   left: 0;
@@ -256,9 +262,8 @@ p {
   letter-spacing: -0.03em;
 }
 
-
 a:not(.category-link)::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -447,7 +452,9 @@ hr {
   border-radius: 0.75rem;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .card:hover {
@@ -469,7 +476,9 @@ h3 {
   color: transparent;
 } */
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   background: none; /* 그라데이션 배경 제거 */
   color: var(--text-color); /* 일반 텍스트 색상 적용 */
   font-weight: 600; /* 굵기 증가 */
@@ -527,7 +536,7 @@ h1, h2, h3 {
     align-items: center; /* 중앙 정렬로 변경 */
     text-align: center; /* 텍스트 중앙 정렬 */
   }
-  
+
   .profile-image {
     width: 150px;
     height: 150px;
@@ -542,7 +551,7 @@ h1, h2, h3 {
 }
 
 .categories a,
-a[href^="/blog/category/"],
+a[href^='/blog/category/'],
 .category-link {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
@@ -560,31 +569,32 @@ a[href^="/blog/category/"],
 }
 
 .categories a:hover,
-a[href^="/blog/category/"]:hover,
+a[href^='/blog/category/']:hover,
 .category-link:hover {
   background-color: var(--border-color);
   color: var(--text-color);
 }
 
 .categories a.active,
-a[href^="/blog/category/"].active,
+a[href^='/blog/category/'].active,
 .category-link.active {
-  color: var(--bg-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
   border-color: var(--text-color);
 }
 
 /* 모든 카테고리 버튼 링크는 밑줄 효과 제거 */
 .categories a::after,
-a[href^="/blog/category/"]::after,
+a[href^='/blog/category/']::after,
 .category-link::after {
   display: none;
 }
 
 /* 추가: 빈 링크 처리 */
 .categories a:empty,
-a[href^="/blog/category/"]:empty {
+a[href^='/blog/category/']:empty {
   min-width: 80px;
   text-align: center;
-  background-color: #E2E8F0;
-  color: #4B5563;
+  background-color: #e2e8f0;
+  color: #4b5563;
 }
