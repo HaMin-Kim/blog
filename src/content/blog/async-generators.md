@@ -1,9 +1,9 @@
 ---
-title: "Async Generators in JavaScript: Taming the Data Flood"
-description: "A deep dive into using async generators for handling large data streams efficiently"
+title: 'Async Generators in JavaScript: Taming the Data Flood'
+description: 'A deep dive into using async generators for handling large data streams efficiently'
 publishedAt: 2024-09-15
-category: "network"
-tags: ["javascript", "async", "generators", "streams", "performance"]
+category: 'network'
+tags: ['javascript', 'async', 'generators', 'streams', 'performance']
 ---
 
 ## The Data Deluge
@@ -18,7 +18,7 @@ At their core, async generators are a fusion of two powerful JavaScript features
 async function* numberStream() {
   for (let i = 0; i < 1000; i++) {
     // Simulate async operation
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     yield i;
   }
 }
@@ -42,9 +42,9 @@ async function* fetchAllUsers() {
   while (true) {
     const response = await fetch(`/api/users?page=${page}`);
     const data = await response.json();
-    
+
     if (data.users.length === 0) break;
-    
+
     yield* data.users;
     page++;
   }
@@ -62,16 +62,16 @@ for await (const user of fetchAllUsers()) {
 async function* readFileByChunks(file) {
   const chunkSize = 64 * 1024; // 64KB chunks
   const reader = file.stream().getReader();
-  
+
   while (true) {
-    const {done, value} = await reader.read();
+    const { done, value } = await reader.read();
     if (done) break;
     yield value;
   }
 }
 
 // Process file chunks
-const file = await fetch('large-file.txt').then(r => r.blob());
+const file = await fetch('large-file.txt').then((r) => r.blob());
 for await (const chunk of readFileByChunks(file)) {
   await processChunk(chunk);
 }
@@ -82,12 +82,12 @@ for await (const chunk of readFileByChunks(file)) {
 ```javascript
 async function* webSocketStream(url) {
   const ws = new WebSocket(url);
-  
+
   try {
     while (true) {
       const message = await new Promise((resolve, reject) => {
-        ws.onmessage = e => resolve(e.data);
-        ws.onerror = e => reject(e);
+        ws.onmessage = (e) => resolve(e.data);
+        ws.onerror = (e) => reject(e);
       });
       yield JSON.parse(message);
     }
@@ -126,6 +126,7 @@ async function* withBackpressure(source, processFunc) {
 Async generators are powerful, but they come with some overhead. Here are some tips for optimal performance:
 
 1. **Batch Processing**: Sometimes yielding in batches is more efficient
+
 ```javascript
 async function* batchProcessor(source, batchSize = 100) {
   let batch = [];
@@ -149,4 +150,4 @@ Async generators represent a paradigm shift in how we handle data streams in Jav
 
 As we move towards more data-intensive applications, understanding and effectively using async generators becomes increasingly important. They're not just a feature - they're a fundamental tool in the modern developer's arsenal.
 
-Remember: The key to handling large data streams isn't just about processing everything at once, but about maintaining a steady, controlled flow of data. Async generators give us exactly that - a way to tame the data flood, one yield at a time. 
+Remember: The key to handling large data streams isn't just about processing everything at once, but about maintaining a steady, controlled flow of data. Async generators give us exactly that - a way to tame the data flood, one yield at a time.

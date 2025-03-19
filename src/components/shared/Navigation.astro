@@ -1,9 +1,9 @@
 ---
-import { NAVIGATION } from "../../constants/navigation";
+import { NAVIGATION } from '../../constants/navigation';
 const pathname = new URL(Astro.request.url).pathname;
 
 const isActive = (path: string) => {
-  if (path === "/") return pathname === "/";
+  if (path === '/') return pathname === '/';
   return pathname.startsWith(path);
 };
 ---
@@ -12,7 +12,7 @@ const isActive = (path: string) => {
   <div class="nav-links">
     {
       NAVIGATION.map(({ name, path }) => (
-        <a href={path} class={isActive(path) ? "active" : ""}>
+        <a href={path} class={isActive(path) ? 'active' : ''}>
           {name}
         </a>
       ))
@@ -56,7 +56,7 @@ const isActive = (path: string) => {
   }
 
   a.active::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -2px;
     left: 0;

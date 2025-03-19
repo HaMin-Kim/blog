@@ -1,18 +1,18 @@
 ---
-import BaseLayout from "../../components/layout/BaseLayout.astro";
-import Categories from "../../components/shared/Categories.astro";
-import ArticleCard from "../../components/ui/ArticleCard.astro";
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import BaseHero from "../../components/shared/BaseHero.astro";
-import Container from "../../components/ui/Container.astro";
-import ContentList from "../../components/shared/ContentList.astro";
-type Bookmark = CollectionEntry<"bookmarks">;
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Categories from '../../components/shared/Categories.astro';
+import ArticleCard from '../../components/ui/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseHero from '../../components/shared/BaseHero.astro';
+import Container from '../../components/ui/Container.astro';
+import ContentList from '../../components/shared/ContentList.astro';
+type Bookmark = CollectionEntry<'bookmarks'>;
 
-const bookmarks = await getCollection("bookmarks");
+const bookmarks = await getCollection('bookmarks');
 const types = [...new Set(bookmarks.map((bookmark: Bookmark) => bookmark.data.type))];
 const sortedBookmarks = bookmarks.sort(
-  (a: Bookmark, b: Bookmark) => b.data.createdAt.getTime() - a.data.createdAt.getTime()
+  (a: Bookmark, b: Bookmark) => b.data.createdAt.getTime() - a.data.createdAt.getTime(),
 );
 ---
 

@@ -7,7 +7,7 @@ interface Props {
 const { href, class: className } = Astro.props;
 ---
 
-<article class:list={["card", className]}>
+<article class:list={['card', className]}>
   {
     href ? (
       <a {href}>

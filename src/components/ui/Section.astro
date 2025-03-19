@@ -6,7 +6,7 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<section class:list={["section", className]}>
+<section class:list={['section', className]}>
   <slot />
 </section>
 
@@ -21,4 +21,3 @@ const { class: className } = Astro.props;
     }
   }
 </style>
-

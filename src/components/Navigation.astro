@@ -1,11 +1,11 @@
 ---
-import type { NavigationItem } from "../constants/site";
-import { NAVIGATION } from "../constants/site";
+import type { NavigationItem } from '../constants/site';
+import { NAVIGATION } from '../constants/site';
 
 const pathname = new URL(Astro.request.url).pathname;
 
 const isActive = (path: string) => {
-  if (path === "/") return pathname === "/";
+  if (path === '/') return pathname === '/';
   return pathname.startsWith(path);
 };
 ---
@@ -16,9 +16,9 @@ const isActive = (path: string) => {
       NAVIGATION.main.map(({ name, path }: NavigationItem, index: number) => (
         <a
           href={path}
-          class={isActive(path) ? "active" : ""}
+          class={isActive(path) ? 'active' : ''}
           role="menuitem"
-          aria-current={isActive(path) ? "page" : undefined}
+          aria-current={isActive(path) ? 'page' : undefined}
           tabindex={index === 0 ? 0 : -1}
           data-nav-item
         >
@@ -31,10 +31,10 @@ const isActive = (path: string) => {
 </nav>
 
 <script>
-  const navItems = document.querySelectorAll("[data-nav-item]");
+  const navItems = document.querySelectorAll('[data-nav-item]');
 
   navItems.forEach((item) => {
-    item.addEventListener("keydown", (event: Event) => {
+    item.addEventListener('keydown', (event: Event) => {
       if (!(event instanceof KeyboardEvent)) return;
 
       const items = Array.from(navItems);
@@ -42,23 +42,23 @@ const isActive = (path: string) => {
       let nextIndex: number;
 
       switch (event.key) {
-        case "ArrowRight":
-        case "ArrowDown":
+        case 'ArrowRight':
+        case 'ArrowDown':
           event.preventDefault();
           nextIndex = index + 1 >= items.length ? 0 : index + 1;
           (items[nextIndex] as HTMLElement).focus();
           break;
-        case "ArrowLeft":
-        case "ArrowUp":
+        case 'ArrowLeft':
+        case 'ArrowUp':
           event.preventDefault();
           nextIndex = index - 1 < 0 ? items.length - 1 : index - 1;
           (items[nextIndex] as HTMLElement).focus();
           break;
-        case "Home":
+        case 'Home':
           event.preventDefault();
           (items[0] as HTMLElement).focus();
           break;
-        case "End":
+        case 'End':
           event.preventDefault();
           (items[items.length - 1] as HTMLElement).focus();
           break;
@@ -98,7 +98,7 @@ const isActive = (path: string) => {
   }
 
   a.active::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -2px;
     left: 0;

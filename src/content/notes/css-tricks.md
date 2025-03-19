@@ -1,8 +1,8 @@
 ---
-title: "Modern CSS Tricks"
-description: "Useful CSS snippets and modern techniques"
+title: 'Modern CSS Tricks'
+description: 'Useful CSS snippets and modern techniques'
 publishedAt: 2024-01-05
-category: "CSS"
+category: 'CSS'
 ---
 
 Some modern CSS tricks I use frequently:
@@ -29,4 +29,4 @@ Some modern CSS tricks I use frequently:
   background: var(--custom-bg, #ffffff);
   color: var(--custom-color, var(--fallback-color, #000000));
 }
-``` 
+```
