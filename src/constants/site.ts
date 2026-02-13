@@ -46,6 +46,6 @@ export const META = {
 
 export const CATEGORIES: Category[] = [
   { name: 'All', slug: 'all' },
-  { name: '네트워크', slug: 'network' },
   { name: '클라우드', slug: 'cloud' },
+  { name: '개발', slug: 'dev' },
 ] as const;

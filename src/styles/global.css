@@ -88,7 +88,7 @@ main {
   margin: 2rem auto;
   padding: 2rem 2rem;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: white;
   border-radius: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -522,8 +522,10 @@ h3 {
 }
 
 .profile-image {
-  width: 240px;
-  height: 180px;
+  width: 40%;
+  max-width: 280px;
+  aspect-ratio: 1;
+  flex-shrink: 0;
   border-radius: 8px;
   object-fit: cover;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
