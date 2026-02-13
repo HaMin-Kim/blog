@@ -71,8 +71,8 @@ const featuredProjects = projects
 
     <Section>
       <div class="section-header">
-        <h2>{site.sections.blog.title}</h2>
-        <a href="/blog">{site.sections.blog.viewAllText}</a>
+        <h2 data-i18n="home.section.blog.title">{site.sections.blog.title}</h2>
+        <a href="/blog" data-i18n="home.section.blog.viewAll">{site.sections.blog.viewAllText}</a>
       </div>
       <ContentList>
         {
@@ -95,8 +95,8 @@ const featuredProjects = projects
 
     <section class="section">
       <div class="section-header">
-        <h2>{site.sections.projects.title}</h2>
-        <a href="/projects">{site.sections.projects.viewAllText}</a>
+        <h2 data-i18n="home.section.projects.title">{site.sections.projects.title}</h2>
+        <a href="/projects" data-i18n="home.section.projects.viewAll">{site.sections.projects.viewAllText}</a>
       </div>
       <ContentList>
         {
@@ -123,8 +123,8 @@ const featuredProjects = projects
 
     <section class="section">
       <div class="section-header">
-        <h2>{site.sections.experience.title}</h2>
-        <a href="/experience">{site.sections.experience.viewAllText}</a>
+        <h2 data-i18n="home.section.experience.title">{site.sections.experience.title}</h2>
+        <a href="/experience" data-i18n="home.section.experience.viewAll">{site.sections.experience.viewAllText}</a>
       </div>
       <div class="content-list">
         {
@@ -137,7 +137,7 @@ const featuredProjects = projects
                 </div>
                 <time>
                   {formatDate(exp.data.startDate)} -{' '}
-                  {exp.data.current ? 'Present' : formatDate(exp.data.endDate)}
+                  {exp.data.current ? <span data-i18n="home.experience.present">Present</span> : formatDate(exp.data.endDate)}
                 </time>
               </div>
               <p class="muted-text">{exp.data.description}</p>

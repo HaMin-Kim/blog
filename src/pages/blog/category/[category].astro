@@ -45,7 +45,7 @@ const categoryCounts = CATEGORIES.map((cat) => {
 
 <BaseLayout title="Blog" description="Read my latest blog posts">
   <Container>
-    <BaseHero title="Blog" description="Read my latest blog posts" />
+    <BaseHero title="Blog" description="Read my latest blog posts" titleKey="blog.title" descriptionKey="blog.description" />
     <Categories
       categories={CATEGORIES.map((cat) => cat.slug)}
       currentPath={Astro.url.pathname}
@@ -65,7 +65,7 @@ const categoryCounts = CATEGORIES.map((cat) => {
             />
           ))
         ) : (
-          <p class="no-posts">이 카테고리에 아직 포스트가 없습니다.</p>
+          <p class="no-posts" data-i18n="blog.empty">이 카테고리에 아직 포스트가 없습니다.</p>
         )
       }
     </ContentList>

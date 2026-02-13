@@ -22,7 +22,7 @@ const sortedNotes = notes.sort(
 
 <BaseLayout title="Notes" description="Short-form thoughts and learnings">
   <Container>
-    <BaseHero title="Notes" description="Short-form thoughts and learnings" />
+    <BaseHero title="Notes" description="Short-form thoughts and learnings" titleKey="notes.title" descriptionKey="notes.description" />
 
     <Categories categories={categories} currentPath={Astro.url.pathname} basePath="notes" />
 

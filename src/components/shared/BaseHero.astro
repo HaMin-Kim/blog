@@ -2,14 +2,16 @@
 interface Props {
   title: string;
   description: string;
+  titleKey?: string;
+  descriptionKey?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, titleKey, descriptionKey } = Astro.props;
 ---
 
 <section class="hero">
-  <h1>{title}</h1>
-  <p class="subtitle">{description}</p>
+  <h1 data-i18n={titleKey}>{title}</h1>
+  <p class="subtitle" data-i18n={descriptionKey}>{description}</p>
 </section>
 
 <style>

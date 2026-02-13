@@ -1,10 +1,19 @@
 ---
 import { NAVIGATION } from '../../constants/navigation';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
 const pathname = new URL(Astro.request.url).pathname;
 
 const isActive = (path: string) => {
   if (path === '/') return pathname === '/';
   return pathname.startsWith(path);
+};
+
+const i18nKeyMap: Record<string, string> = {
+  Home: 'nav.home',
+  Blog: 'nav.blog',
+  Notes: 'nav.notes',
+  Bookmarks: 'nav.bookmarks',
 };
 ---
 
@@ -12,18 +21,20 @@ const isActive = (path: string) => {
   <div class="nav-links">
     {
       NAVIGATION.map(({ name, path }) => (
-        <a href={path} class={isActive(path) ? 'active' : ''}>
+        <a href={path} class={isActive(path) ? 'active' : ''} data-i18n={i18nKeyMap[name]}>
           {name}
         </a>
       ))
     }
   </div>
+  <LanguageSwitcher />
 </nav>
 
 <style>
   nav {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 
   .nav-links {

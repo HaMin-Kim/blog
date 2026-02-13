@@ -26,7 +26,7 @@ const isActive = (category: string) => {
 ---
 
 <div class="categories">
-  <a href={getCategoryUrl('all')} class:list={['category-link', { active: isActive('all') }]}>
+  <a href={getCategoryUrl('all')} class:list={['category-link', { active: isActive('all') }]} data-i18n="categories.all">
     All
   </a>
   {

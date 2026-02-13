@@ -14,6 +14,7 @@ import interMediumWoff2 from '@fontsource/inter/files/inter-latin-500-normal.wof
 import robotoMonoRegularWoff2 from '@fontsource/roboto-mono/files/roboto-mono-latin-400-normal.woff2?url';
 import { ClientRouter } from 'astro:transitions';
 import Navigation from '../shared/Navigation.astro';
+import { translations } from '../../i18n/translations';
 
 interface Props {
   title: string;
@@ -31,7 +32,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -85,17 +86,63 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
-    <script is:inline>
+    <script is:inline define:vars={{ i18nData: JSON.stringify(translations) }}>
       // Always use dark theme
       document.documentElement.setAttribute('data-theme', 'dark');
 
-      // Handle theme persistence during view transitions
+      // --- i18n engine ---
+      var __i18n = JSON.parse(i18nData);
+
+      function __getLocale() {
+        try { return localStorage.getItem('locale') || 'ko'; } catch(e) { return 'ko'; }
+      }
+
+      function __applyI18n(doc) {
+        var locale = __getLocale();
+        var dict = __i18n[locale] || __i18n['ko'];
+        doc.documentElement.setAttribute('lang', locale === 'en' ? 'en' : 'ko');
+        var els = doc.querySelectorAll('[data-i18n]');
+        for (var i = 0; i < els.length; i++) {
+          var key = els[i].getAttribute('data-i18n');
+          if (dict[key] != null) els[i].textContent = dict[key];
+        }
+        // Update switcher button text
+        var btn = doc.getElementById('lang-switcher');
+        if (btn) btn.textContent = locale === 'ko' ? 'EN' : '한국어';
+      }
+
+      function __bindSwitcher() {
+        var btn = document.getElementById('lang-switcher');
+        if (btn && !btn.__i18nBound) {
+          btn.__i18nBound = true;
+          btn.addEventListener('click', function() {
+            var current = __getLocale();
+            var next = current === 'ko' ? 'en' : 'ko';
+            try { localStorage.setItem('locale', next); } catch(e) {}
+            __applyI18n(document);
+          });
+        }
+      }
+
+      // Apply on initial parse (before DOMContentLoaded for fast swap)
+      __applyI18n(document);
+
+      // Handle theme + i18n persistence during view transitions
       document.addEventListener('astro:before-swap', (ev) => {
         ev.newDocument.documentElement.setAttribute('data-theme', 'dark');
+        __applyI18n(ev.newDocument);
       });
 
-      // Add initial-load class
+      document.addEventListener('astro:after-swap', () => {
+        __applyI18n(document);
+        __bindSwitcher();
+      });
+
+      // Add initial-load class + bind switcher on first load
       document.addEventListener('DOMContentLoaded', () => {
+        __applyI18n(document);
+        __bindSwitcher();
+
         document.body.classList.add('initial-load');
 
         setTimeout(() => {
