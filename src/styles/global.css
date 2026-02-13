@@ -118,6 +118,13 @@ main {
   padding: 0 1.5rem;
 } */
 
+.nav-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1rem 0 0;
+  opacity: 0.6;
+}
+
 .nav-container a {
   color: var(--text-color);
   font-weight: 500;
@@ -416,7 +423,8 @@ hr {
 
 /* Selection */
 ::selection {
-  background: var(--hover-bg);
+  background: rgba(99, 102, 241, 0.25);
+  color: var(--text-color);
 }
 
 /* Scrollbar */
