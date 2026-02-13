@@ -15,10 +15,10 @@ const site = siteConfig.data;
 
 const formatDate = (date: Date | undefined) => {
   if (!date) return '';
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}/${m}/${d}`;
 };
 
 const posts = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => {
@@ -200,7 +200,8 @@ const featuredProjects = projects
 
   time {
     font-size: var(--text-xs);
-    opacity: 0.5;
+    color: var(--text-muted);
+    opacity: 0.6;
     white-space: nowrap;
   }
 
